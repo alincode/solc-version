@@ -16,6 +16,14 @@
   ],
   "author": "alincode <alincode@gmail.com>",
   "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/alincode/solc-version.git"
+  },
+  "bugs": {
+    "url": "https://github.com/alincode/solc-version/issues"
+  },
+  "homepage": "https://github.com/alincode/solc-version#readme",
   "dependencies": {
     "ajax-caching": "^0.1.0"
   },
