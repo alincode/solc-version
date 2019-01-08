@@ -1,8 +1,8 @@
 # Solc version
 
-![GitHub package version](https://img.shields.io/github/package-json/v/alincode/ajax-caching.svg)
-![npm downloads](https://img.shields.io/npm/dt/ajax-caching.svg)
-[![Dependency Status](https://img.shields.io/david/alincode/ajax-caching.svg?style=flat)](https://david-dm.org/alincode/ajax-caching)
+![Travis](https://img.shields.io/travis/alincode/solc-version.svg)
+[![codecov](https://codecov.io/gh/alincode/solc-version/branch/master/graph/badge.svg)](https://codecov.io/gh/alincode/solc-version)![npm downloads](https://img.shields.io/npm/dt/solc-version.svg)
+[![Dependency Status](https://img.shields.io/david/alincode/solc-version.svg?style=flat)](https://david-dm.org/alincode/solc-version)
 
 ### Install
 
