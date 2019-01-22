@@ -5,10 +5,10 @@ const getlist = require('./getlist');
 
 module.exports = version2url;
 
-function version2url(version) {
+function version2url(version, list) {
   return new Promise(async (resolve, reject) => {
     try {
-      let data = await getlist();
+      let data = list ? list : await getlist();
       let select = processList(data);
       const { all, releases } = select;
       if (version === 'latest') version = Object.keys(releases)[0];

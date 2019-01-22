@@ -20,12 +20,26 @@ let select = await v.versions();
 const { releases, nightly, all } = select;
 ```
 
+```js
+const v = require('solc-version');
+const list = JSON.stringify(require('./utils/list.json'));
+let select = await v.versions(list);
+const { releases, nightly, all } = select;
+```
+
 * version2url
 
 ```js
 const v = require('solc-version');
 let version = 'v0.4.25-stable-2018.09.13';
 let url = await v.version2url(version);
+```
+
+```js
+const v = require('solc-version');
+let version = 'v0.4.25-stable-2018.09.13';
+const list = JSON.stringify(require('./utils/list.json'));
+let url = await v.version2url(version, list);
 ```
 
 ## License

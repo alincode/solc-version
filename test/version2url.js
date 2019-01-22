@@ -14,6 +14,14 @@ describe('version2url', () => {
     url.should.match(/solc-bin.ethereum.org/);
   });
 
+  it('0.4.25 passed list', async () => {
+    let version = 'v0.4.25-stable-2018.09.13';
+    const list = JSON.stringify(require('./utils/list.json'));
+    let url = await v.version2url(version, list);
+    url.should.be.a('string');
+    url.should.match(/solc-bin.ethereum.org/);
+  });
+
   it('nightly', async () => {
     let version = 'nightly';
     let url = await v.version2url(version);

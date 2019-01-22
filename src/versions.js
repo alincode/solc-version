@@ -4,10 +4,10 @@ const groupByVersion = require('./groupByVersion');
 
 module.exports = versions;
 
-function versions() {
+function versions(list) {
   return new Promise(async (resolve, reject) => {
     try {
-      let data = await getlist();
+      let data = list ? list : await getlist();
       let select = groupByVersion(processList(data), false);
       resolve(select);
     } catch (error) {
