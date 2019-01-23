@@ -15,7 +15,7 @@ describe('version', () => {
     nightly.should.be.a('Array');
     all.should.be.a('Array');
     releases[0].should.be.a('string');
-    releases[0].should.be.equal('v0.5.2-stable-2018.12.19');
+    releases[0].indexOf('stable').should.be.above(-1);
   });
 
   it('versions passed list.json', async () => {
