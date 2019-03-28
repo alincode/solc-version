@@ -25,7 +25,8 @@
   },
   "homepage": "https://github.com/alincode/solc-version#readme",
   "dependencies": {
-    "ajax-caching": "^0.1.0"
+    "ajax-caching": "^0.1.0",
+    "lodash": "^4.17.11"
   },
   "devDependencies": {
     "chai": "^4.2.0",

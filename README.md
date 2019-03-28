@@ -37,6 +37,13 @@ let url = await v.version2url(version);
 
 ```js
 const v = require('solc-version');
+let version = 'stable';
+// let version = 'latest'; 
+let url = await v.version2url(version);
+```
+
+```js
+const v = require('solc-version');
 let version = 'v0.4.25-stable-2018.09.13';
 const list = JSON.stringify(require('./utils/list.json'));
 let url = await v.version2url(version, list);
