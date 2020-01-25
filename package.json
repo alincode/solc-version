@@ -24,6 +24,9 @@
     "url": "https://github.com/alincode/solc-version/issues"
   },
   "homepage": "https://github.com/alincode/solc-version#readme",
+  "engines": {
+    "node": ">= 8"
+  },
   "dependencies": {
     "ajax-caching": "^0.3.0",
     "lodash": "^4.17.15"
