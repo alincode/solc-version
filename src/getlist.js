@@ -1,22 +1,23 @@
-const baseURL = 'https://solc-bin.ethereum.org/bin';
+const baseURL = 'https://solc-bin.ethereum.org/bin'
 
-const ajaxCaching = require('ajax-caching');
-const promiseAjax = ajaxCaching.promiseAjax;
+const ajaxCaching = require('ajax-caching')
+const promiseAjax = ajaxCaching.promiseAjax
 
-module.exports = getlist;
+module.exports = getlist
 
 async function getlist() {
+  // eslint-disable-next-line no-useless-catch
   try {
     const opts = {
       url: `${baseURL}/list.json`,
       caching: true,
-      transform: function (data) {
-        if (data.releases) throw Error('get list fail');
-        return data;
-      }
-    };
-    return await promiseAjax(opts);
+      transform: function(data) {
+        if (data.releases) throw Error('get list fail')
+        return data
+      },
+    }
+    return await promiseAjax(opts)
   } catch (error) {
-    throw error;
+    throw error
   }
 }
