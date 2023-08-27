@@ -1,7 +1,12 @@
 module.exports = groupByVersion
 
 function filterCondition(x) {
-  return !~x.indexOf('v0.5.') && !~x.indexOf('v0.6.') && !~x.indexOf('v0.7.')
+  return (
+    !~x.indexOf('v0.5.') &&
+    !~x.indexOf('v0.6.') &&
+    !~x.indexOf('v0.7.') &&
+    !~x.indexOf('v0.8.')
+  )
 }
 
 function removeAllZeroPointFiveVersion(select) {
