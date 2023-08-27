@@ -1,8 +1,7 @@
 # Solc version
 
-![Travis](https://img.shields.io/travis/alincode/solc-version.svg)
-[![codecov](https://codecov.io/gh/alincode/solc-version/branch/master/graph/badge.svg)](https://codecov.io/gh/alincode/solc-version)![npm downloads](https://img.shields.io/npm/dt/solc-version.svg)
-[![Dependency Status](https://img.shields.io/david/alincode/solc-version.svg?style=flat)](https://david-dm.org/alincode/solc-version)
+[![codecov](https://codecov.io/gh/alincode/solc-version/branch/master/graph/badge.svg)](https://codecov.io/gh/alincode/solc-version)
+![npm downloads](https://img.shields.io/npm/dt/solc-version.svg)
 
 ### Requirements
 
