@@ -1,28 +1,26 @@
 const baseURL = 'https://solc-bin.ethereum.org/bin'
-
-const processList = require('./processList')
 const getlist = require('./getlist')
+const processList = require('./processList')
 
 module.exports = version2url
 
-function version2url(version, list) {
-  return new Promise(async (resolve, reject) => {
-    try {
-      let data = list ? list : await getlist()
-      let select = processList(data)
-      const { all, releases } = select
-      if (version === 'stable') {
-        version = Object.keys(releases).reverse()[0]
-      }
-      if (version === 'latest' || version === 'nightly') {
-        version = Object.keys(all).reverse()[0]
-      }
+async function version2url(version, list) {
+  try {
+    const data = list || await getlist()
+    const { all, releases } = processList(data)
 
-      var path = all[version]
-      if (!path) return reject(new Error(`unknown version: ${version}`))
-      resolve(`${baseURL}/${path}`)
-    } catch (error) {
-      reject(error)
+    if (version === 'stable' || version === 'latest' || version === 'nightly') {
+      version = Object.keys(version === 'stable' ? releases : all).reverse()[0]
     }
-  })
+
+    const path = all[version]
+
+    if (!path) {
+      throw new Error(`unknown version: ${version}`)
+    }
+
+    return `${baseURL}/${path}`
+  } catch (error) {
+    throw error
+  }
 }
