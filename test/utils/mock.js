@@ -2,10 +2,9 @@ module.exports = mock;
 
 function mock() {
   if (!global.window) {
-    const mocks = require('mock-browser').mocks;
-    let MockBrowser = mocks.MockBrowser;
-    global.window = MockBrowser.createWindow();
-    window.indexedDB = require('fake-indexeddb');
+    const { Window } = require('happy-dom');
+    global.window = new Window();
+    window.indexedDB = require('fake-indexeddb').default;
   }
   const fetch = require('cross-fetch');
   global.fetch = fetch;
