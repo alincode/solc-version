@@ -7,6 +7,12 @@
 
 - node 8.x
 
+### asdf
+
+```
+asdf plugin-add nodejs
+```
+
 ### Install
 
 ```sh
