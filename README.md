@@ -23,6 +23,8 @@ npm install solc-version
 
 - versions
 
+Retrieve information about all available versions.
+
 ```js
 const v = require('solc-version')
 let select = await v.versions()
@@ -37,6 +39,8 @@ const { releases, nightly, all } = select
 ```
 
 - version2url
+
+get a specified version to a URL
 
 ```js
 const v = require('solc-version')
