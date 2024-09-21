@@ -1,58 +1,66 @@
-module.exports = processList
+const formatDate = (dateString) => {
+  if (!dateString) return '';
+  const [year, month, day] = dateString.split('.').map(Number);
+  const date = new Date(Date.UTC(year, month - 1, day));
+  return `${date.getUTCFullYear()}.${String(date.getUTCMonth() + 1).padStart(2, '0')}.${String(date.getUTCDate()).padStart(2, '0')}`;
+};
 
-function processList(json) {
-  const data = JSON.parse(json)
-  const lists = Object.values(data.builds).reduce(
-    ({ agg, d }, x, i, arr) => {
-      const { path, prerelease, version } = x
-      if (prerelease) {
-        d = prerelease.split('nightly.')[1]
-        var [year0, month0, day0] = d.split('.').map(Number)
-        if ((month0 + '').length < 2) month0 = '0' + month0
-        if ((day0 + '').length < 2) day0 = '0' + day0
-        d = [year0, month0, day0].join('.')
-        const entry = [`v${version}-nightly-${d}`, path]
-        agg.nightly.push(entry)
-        agg.all.push(entry)
-      } else {
-        for (
-          var j = i + 1, ahead;
-          j < arr.length && !(ahead = arr[j].prerelease);
-          j++
-        ) {}
-        if (ahead) ahead = ahead.split('nightly.')[1]
-        else ahead = d
-        if (!d) d = ahead
-        if (ahead !== d) {
-          var [year1, month1, day1] = d.split('.').map(Number)
-          var [year2, month2, day2] = ahead.split('.').map(Number)
-          var d1 = new Date(year1, month1 - 1, day1)
-          var d2 = new Date(year2, month2 - 1, day2)
-          var diffDays = parseInt((d2 - d1) / (1000 * 60 * 60 * 24))
-          var d3 = new Date(d1)
-          d3.setDate(d3.getDate() + diffDays / 2)
-          var month = d3.getUTCMonth() + 1
-          var day = d3.getDate()
-          var year = d3.getUTCFullYear()
-          var current = [year, month, day].join('.')
-        } else {
-          var current = ahead
+const createEntry = (version, type, date, path) => [`v${version}-${type}-${date}`, path];
+
+const processEntry = (entry, prevDate) => {
+  const { path, prerelease, version } = entry;
+  let date, type;
+
+  if (prerelease) {
+    date = prerelease.split('nightly.')[1];
+    type = 'nightly';
+  } else {
+    const nextDate = prevDate || date;
+    if (date && nextDate && nextDate !== date) {
+      const d1 = new Date(date.replace(/\./g, '-'));
+      const d2 = new Date(nextDate.replace(/\./g, '-'));
+      const middleDate = new Date((d1.getTime() + d2.getTime()) / 2);
+      date = formatDate(middleDate.toISOString().split('T')[0].replace(/-/g, '.'));
+    } else {
+      date = nextDate || date;
+    }
+    type = 'stable';
+  }
+
+  date = date ? formatDate(date) : '';
+  return { entry: createEntry(version, type, date, path), type, date };
+};
+
+const processList = (json) => {
+  const data = JSON.parse(json);
+  const builds = Object.values(data.builds);
+
+  const lists = builds.reduce((acc, build, index, array) => {
+    // 修改這裡來正確處理 prevDate
+    let prevDate = null;
+    if (index > 0) {
+      for (let i = index - 1; i >= 0; i--) {
+        if (array[i].prerelease) {
+          prevDate = array[i].prerelease.split('nightly.')[1];
+          break;
         }
-        var [year0, month0, day0] = current.split('.').map(Number)
-        if ((month0 + '').length < 2) month0 = '0' + month0
-        if ((day0 + '').length < 2) day0 = '0' + day0
-        current = [year0, month0, day0].join('.')
-        const entry = [`v${version}-stable-${current}`, path]
-        agg.releases.push(entry)
-        agg.all.push(entry)
       }
-      return { agg, d }
-    },
-    { agg: { releases: [], nightly: [], all: [] }, d: null }
-  ).agg
-  const { releases, nightly, all } = lists
-  lists.releases = releases.reduce((o, x) => ((o[x[0]] = x[1]), o), {})
-  lists.nightly = nightly.reduce((o, x) => ((o[x[0]] = x[1]), o), {})
-  lists.all = all.reduce((o, x) => ((o[x[0]] = x[1]), o), {})
-  return lists
-}
+    }
+    
+    const { entry, type, date } = processEntry(build, prevDate);
+
+    if (entry[0] && entry[1]) {  // Only add valid entries
+      if (!acc[type]) acc[type] = [];
+      type === 'stable' ? acc['releases'].push(entry) : acc[type].push(entry);
+      if (!acc.all) acc.all = [];
+      acc.all.push(entry);
+    }
+    return acc;
+  }, { releases: [], nightly: [], all: [] });
+
+  return Object.fromEntries(
+    Object.entries(lists).map(([key, value]) => [key, Object.fromEntries(value)])
+  );
+};
+
+module.exports = processList;
